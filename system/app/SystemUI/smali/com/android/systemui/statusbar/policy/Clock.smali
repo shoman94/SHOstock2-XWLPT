@@ -174,6 +174,35 @@
 
     .line 219
     .local v8, context:Landroid/content/Context;
+    invoke-virtual {v8}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v2
+
+    const-string v7, "hide_time"
+
+    const/4 v0, 0x0
+
+    invoke-static {v2, v7, v0}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
+
+    move-result v7	
+
+    const/4 v0, 0x0
+
+    if-eqz v7, :cond_nohide
+
+    const/16 v0, 0x8
+
+    :cond_nohide
+    const v1, 0x7f0f0027
+
+    move-object/from16 v2, p0
+
+    invoke-virtual {v2, v1}, Lcom/android/systemui/statusbar/phone/PhoneStatusBarView;->findViewById(I)Landroid/view/View;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v0}, Landroid/view/View;->setVisibility(I)V
+
     invoke-static {v8}, Landroid/text/format/DateFormat;->is24HourFormat(Landroid/content/Context;)Z
 
     move-result v6
@@ -201,6 +230,50 @@
     invoke-virtual {v8, v0}, Landroid/content/Context;->getString(I)Ljava/lang/String;
 
     move-result-object v9
+
+    if-nez v6, :cond_continue
+
+    invoke-virtual {v8}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v2
+
+    const-string v3, "hide_ampm"
+
+    const/4 v0, 0x0
+
+    invoke-static {v2, v3, v0}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
+
+    move-result v7
+
+    const-string v0, "ampm"
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "getint returned="
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Landroid/util/Slog;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    move v2, v7
+
+    if-eqz v2, :cond_continue
+
+    const-string v9, "h:mm"
+
+    :cond_continue
 
     .line 247
     .local v9, format:Ljava/lang/String;

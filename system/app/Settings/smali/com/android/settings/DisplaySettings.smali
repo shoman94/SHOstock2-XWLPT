@@ -49,6 +49,10 @@
 
 .field private mWeatherSettings:Landroid/preference/PreferenceScreen;
 
+.field private mAospLock:Landroid/preference/Preference;
+
+.field private mCrtAnimation:Landroid/preference/CheckBoxPreference;
+
 
 # direct methods
 .method public constructor <init>()V
@@ -1115,6 +1119,42 @@
     invoke-virtual {v0, v1}, Lcom/android/settings/DisplaySettings;->addPreferencesFromResource(I)V
 
     .line 179
+    const-string v20, "crt_animation"
+
+    move-object/from16 v0, p0
+
+    move-object/from16 v1, v20
+
+    invoke-virtual {v0, v1}, Lcom/android/settings/DisplaySettings;->findPreference(Ljava/lang/CharSequence;)Landroid/preference/Preference;
+
+    move-result-object v20
+
+    check-cast v20, Landroid/preference/CheckBoxPreference;
+
+    move-object/from16 v0, v20
+
+    move-object/from16 v1, p0
+
+    iput-object v0, v1, Lcom/android/settings/DisplaySettings;->mCrtAnimation:Landroid/preference/CheckBoxPreference;
+
+    const-string v20, "enable_aosp_lock"
+
+    move-object/from16 v0, p0
+
+    move-object/from16 v1, v20
+
+    invoke-virtual {v0, v1}, Lcom/android/settings/DisplaySettings;->findPreference(Ljava/lang/CharSequence;)Landroid/preference/Preference;
+
+    move-result-object v20
+
+    check-cast v20, Landroid/preference/CheckBoxPreference;
+
+    move-object/from16 v0, v20
+
+    move-object/from16 v1, p0
+
+    iput-object v0, v1, Lcom/android/settings/DisplaySettings;->mAospLock:Landroid/preference/Preference;
+
     const-string v20, "clock"
 
     move-object/from16 v0, p0
@@ -3749,7 +3789,7 @@
 
     move-result v2
 
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_new
 
     .line 661
     invoke-virtual {p0}, Lcom/android/settings/DisplaySettings;->getContentResolver()Landroid/content/ContentResolver;
@@ -3773,8 +3813,56 @@
 
     :cond_14
     move v0, v1
-
+    
     goto :goto_6
+
+    :cond_new
+    iget-object v4, p0, Lcom/android/settings/DisplaySettings;->mAospLock:Landroid/preference/Preference;
+
+    invoke-virtual {p2, v4}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_new2
+
+    const-string v3, "enable_aosp_lock"
+
+    iget-object v0, p0, Lcom/android/settings/DisplaySettings;->mAospLock:Landroid/preference/Preference;
+
+    check-cast v0, Landroid/preference/CheckBoxPreference;
+
+    invoke-virtual {v0}, Landroid/preference/CheckBoxPreference;->isChecked()Z
+
+    move-result v2
+
+    invoke-virtual {p0}, Lcom/android/settings/DisplaySettings;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v4
+
+    invoke-static {v4, v3, v2}, Landroid/provider/Settings$System;->putInt(Landroid/content/ContentResolver;Ljava/lang/String;I)Z
+
+    goto :cond_2
+
+    :cond_new2
+    iget-object v4, p0, Lcom/android/settings/DisplaySettings;->mCrtAnimation:Landroid/preference/CheckBoxPreference;
+
+    if-ne p2, v4, :cond_2
+
+    const-string v3, "crt_animation"
+
+    iget-object v0, p0, Lcom/android/settings/DisplaySettings;->mCrtAnimation:Landroid/preference/CheckBoxPreference;
+
+    invoke-virtual {v0}, Landroid/preference/CheckBoxPreference;->isChecked()Z
+
+    move-result v2
+ 
+    invoke-virtual {p0}, Lcom/android/settings/DisplaySettings;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v4
+
+    invoke-static {v4, v3, v2}, Landroid/provider/Settings$System;->putInt(Landroid/content/ContentResolver;Ljava/lang/String;I)Z
+
+    goto :cond_2
 .end method
 
 .method public onResume()V

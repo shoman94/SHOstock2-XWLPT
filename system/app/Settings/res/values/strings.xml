@@ -2493,4 +2493,12 @@ You can download and install PC Kies from http://www.samsung.com/kies in order t
     <string name="cmcc_plmn">CMCC</string>
     <string name="cu_plmn">CU-CHN</string>
     <string name="rcs_settings_title">joyn services</string>
+    <string name="disable_time">Hide Time</string>
+    <string name="disable_time_text">Remove time from status bar</string>
+    <string name="disable_ampm">Hide AM/PM</string>
+    <string name="disable_ampm_text">Remove AM/PM from time in status bar</string>
+    <string name="enable_aosp_lock">Enable AOSP lockscreen</string>
+    <string name="enable_aosp_lock_text">Enable AOSP lockscreen in place of circle lockscreen</string>
+    <string name="crtanimation_title">Enable CRT Animation</string>
+    <string name="crtanimation_summary">Animation when powering off screen</string>
 </resources>

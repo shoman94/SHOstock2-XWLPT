@@ -201,6 +201,8 @@
 
 .field mPostCollapseCleanup:Ljava/lang/Runnable;
 
+.field mPowerWidget:Lcom/wanam/systemui/quickpanel/PowerWidget;
+
 .field mQueueLock:Ljava/lang/Object;
 
 .field mQuickSettingView:Lcom/android/systemui/statusbar/policy/quicksetting/QuickSettingPanel;
@@ -2858,6 +2860,10 @@
     invoke-direct {v2, v3, v4}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
     invoke-virtual {v1, v0, p3, v2}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;ILandroid/view/ViewGroup$LayoutParams;)V
+
+    iget-object v1, p0, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->mPowerWidget:Lcom/wanam/systemui/quickpanel/PowerWidget;
+
+    invoke-virtual {v1}, Lcom/wanam/systemui/quickpanel/PowerWidget;->updateWidget()V
 
     .line 847
     return-void
@@ -7430,6 +7436,22 @@
 
     iput-object v0, v1, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->mScrollView:Landroid/widget/ScrollView;
 
+    const v18, 0x7f0f00d9
+
+    move/from16 v0, v18
+
+    invoke-virtual {v6, v0}, Lcom/android/systemui/statusbar/phone/ExpandedView;->findViewById(I)Landroid/view/View;
+
+    move-result-object v18
+
+    check-cast v18, Lcom/wanam/systemui/quickpanel/PowerWidget;
+
+    move-object/from16 v0, v18
+
+    move-object/from16 v1, p0
+
+    iput-object v0, v1, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->mPowerWidget:Lcom/wanam/systemui/quickpanel/PowerWidget;
+
     .line 523
     sget-boolean v18, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->useTouchWizGUI:Z
 
@@ -8181,6 +8203,12 @@
 
     .line 660
     invoke-direct/range {p0 .. p0}, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->tw_loadNotificationShade()V
+
+    move-object/from16 v0, p0
+
+    iget-object v0, v0, Lcom/android/systemui/statusbar/phone/PhoneStatusBar;->mPowerWidget:Lcom/wanam/systemui/quickpanel/PowerWidget;
+
+    invoke-virtual {v0}, Lcom/wanam/systemui/quickpanel/PowerWidget;->setupWidget()V
 
     .line 667
     return-object v13
@@ -10307,6 +10335,22 @@
     if-eqz p1, :cond_1
 
     const/4 v1, 0x0
+
+    iget-object v2, p0, Lcom/android/systemui/SystemUI;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v2}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v2
+
+    const-string p0, "hide_time"
+
+    invoke-static {v2, p0, v1}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
+
+    move-result v2
+
+    if-eqz v2, :goto_0
+
+    const/16 v1, 0x8
 
     :goto_0
     invoke-virtual {v0, v1}, Landroid/view/View;->setVisibility(I)V
