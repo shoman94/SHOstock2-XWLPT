@@ -830,6 +830,26 @@
 
     move-result v19
 
+    move-object/from16 v0, p0
+
+    iget-object v0, v0, Lcom/android/internal/policy/impl/CircleUnlockView;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v0}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v0
+
+    const-string v4, "enable_aosp_lock"
+
+    const/4 v1, 0x0
+
+    invoke-static {v0, v4, v1}, Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I
+
+    move-result v0
+
+    const/16 v22, 0x0
+	
+    if-nez v0, :goto_0
+
     .line 531
     .local v19, touchedEventY:F
     move-object/from16 v0, p0
